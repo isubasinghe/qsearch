@@ -11,7 +11,7 @@ namespace fst {
     class Node {
     private:
         bool finalNode;
-        folly::AtomicHashMap<char, fst::Edge *> edgeMap;
+        folly::AtomicHashMap<char, fst::Edge *> *edgeMap;
         char value;
     public:
         Node(bool finalNode, char value);

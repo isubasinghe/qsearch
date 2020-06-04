@@ -8,12 +8,15 @@
 #include <iostream>
 
 namespace docman {
+
+
     class Manager {
         private:
             bool insertToFST(std::string word);
             bool processWord(std::string word);
             bool insertToDocuments(std::string id, std::string document);
             folly::F14FastMap<std::string, std::string> documents;
+          
         public:
             bool insertDocument(std::string document, std::string id);
             bool insertDocument(std::string document);
