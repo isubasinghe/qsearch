@@ -24,9 +24,16 @@ namespace docman {
 
     bool Manager::insertDocument(std::string document, std::string id) {
         boost::tokenizer<> tok(document);
+        folly::F14FastSet<std::string> set;
+        if(!(this->insertToDocuments(id, document))) {
+            return false;
+        }
         for(boost::tokenizer<>::iterator beg=tok.begin(); beg!=tok.end();++beg){
             this->processWord(*beg);
-            std::cout << *beg << "\n";
+            set.insert(*beg);
+        }
+        for (std::string entry: set) {
+            (this->wordMap)[entry]++;
         }
         return true;
     }

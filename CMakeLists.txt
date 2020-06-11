@@ -6,7 +6,7 @@ set(CMAKE_BUILD_TYPE Release)
 
 # Ensure that folly was compiled with the same SIMD flags
 # check here https://github.com/facebook/folly/blob/master/CMakeLists.txt
-set(CMAKE_CXX_FLAGS "-Wall -Wextra --pedantic -mavx -mavx2 -msse2")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra --pedantic -mavx -mavx2 -msse2 -DSTATIC_SEARCH")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 find_package(Boost REQUIRED)
@@ -31,7 +31,10 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/includes")
 
 add_executable(qsearch main.cpp
   ./src/fst/fst.cpp
+  ./src/fst/node.cpp
   ./src/docman/manager.cpp
+  ./src/scorer/scorer.cpp
+  ./src/scorer/tfidf.cpp
 )
 
 target_link_libraries(qsearch ${Boost_LIBRARIES} ${FOLLY_LIBRARIES})
