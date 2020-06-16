@@ -34,9 +34,9 @@ namespace fst {
     class Node {
     private:
         NodeContainer *nodeContainer = nullptr;
-    public:
         char value;
         bool finalNode;
+    public:
         Node(bool finalNode, char value);
         ~Node();
         void initaliseMap();
