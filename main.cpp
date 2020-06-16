@@ -7,9 +7,9 @@
 
 int main(int argc, char *argv[]) {
     fst::FST *fst = new fst::FST();
-    fst->addWord("hello");
-    fst->addWord( "how");
-    fst->addWord( "hey");
+    fst->addWord("1", "hello");
+    fst->addWord("2", "how");
+    fst->addWord("3", "hey");
 
 
 

@@ -19,7 +19,7 @@ namespace fst {
         public:
             FST();
             ~FST();
-            bool addWord(std::string word);
+            bool addWord(std::string id, std::string word);
     };
 };
 

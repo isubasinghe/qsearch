@@ -46,7 +46,7 @@ fst::FST::~FST() {
 }
 
 
-bool fst::FST::addWord(std::string word) {
+bool fst::FST::addWord(std::string id, std::string word) {
     folly::AtomicHashMap<char, fst::Edge *> *edgeMap = this->edgeMap;
     for(std::string::size_type i = 0; i < word.size(); i++) {
         bool finalNode = (i == word.size()-1);
