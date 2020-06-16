@@ -13,11 +13,17 @@ namespace fst {
         
         return true;
     }
-
-    #ifdef STATIC_SEARCH
     
-    void NodeContainer::build() {
-        std::sort((this->docs).begin(), (this->docs).end(), std::greater<NodeValue>());
+    Node::Node(bool finalNode, char value) {
+        this->finalNode = finalNode;
+        this->value = value;
+        this->edgeMap = new folly::AtomicHashMap<char, fst::Edge *>(36);
+    }
+
+
+
+    Node::~Node() {
+        delete this->edgeMap;
     }
 
     #endif 

@@ -32,6 +32,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/includes")
 add_executable(qsearch main.cpp
   ./src/fst/fst.cpp
   ./src/fst/node.cpp
+  ./src/fst/edge.cpp
   ./src/docman/manager.cpp
   ./src/scorer/scorer.cpp
   ./src/scorer/tfidf.cpp
