@@ -28,7 +28,6 @@ namespace fst {
         public:
             bool insert(std::string id, double score);
             std::vector<NodeValue> topK(unsigned long long k);
-            void build();
 
     };
 
