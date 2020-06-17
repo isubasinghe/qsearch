@@ -12,7 +12,6 @@
 
 
 namespace fst {
-
     class FST {
         private:
             folly::AtomicHashMap<char, fst::Edge *> *edgeMap;

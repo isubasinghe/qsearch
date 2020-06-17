@@ -9,7 +9,6 @@ namespace fst {
         private:
             fst::Node *to;
         public:
-            
             Edge(fst::Node *to);
             ~Edge();
             folly::AtomicHashMap<char, fst::Edge *> *getEdgeMap();
