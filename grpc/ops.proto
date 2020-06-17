@@ -1,6 +1,6 @@
 syntax = "proto3";
-package qsearch.qlib;
-option go_package = "qlib";
+package proto;
+option go_package = "proto";
 
 service HelloWorld {
   rpc Insert(InsertReq) returns (InsertResp);
@@ -13,7 +13,7 @@ message Categories {
 
 message InsertReq {
   string document = 1;
-  optional Categories categories = 2;
+  Categories categories = 2;
 }
 
 message InsertResp {
@@ -26,14 +26,14 @@ message SearchReq {
   uint64 offset = 1;
   uint64 limit = 2;
   string text = 3;
-  optional bool fetchContent = 4;
-  optional uint64 timeout = 5;
-  optional Categories categories = 6;
+  bool fetchContent = 4;
+  uint64 timeout = 5;
+  Categories categories = 6;
 }
 
 message Document {
   string docID = 1;
-  optional string content = 2;
+  string content = 2;
 }
 
 message SearchResp {
