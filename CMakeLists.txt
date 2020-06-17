@@ -11,12 +11,16 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 set(CMAKE_CXX_FLAGS "-Wall -Wextra --pedantic -mavx -mavx2 -msse2 -DSTATIC_SEARCH")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-# <BOOST>
+list(APPEND LINK_LIBS "")
+
 find_package(Boost REQUIRED)
 find_package(folly REQUIRED)
 find_package(Threads REQUIRED)
 find_package(gflags REQUIRED)
-# </BOOST>
+find_package(Protobuf REQUIRED)
+find_package(Rocksdb REQUIRED)
+find_package(GooglePerftools)
+
 
 # <FOLLY>
 set_and_check(FOLLY_INCLUDE_DIR /usr/local/include/folly)
@@ -36,14 +40,20 @@ endif()
 
 # <PROTOBUF>
 include(FindProtobuf)
-find_package(Protobuf REQUIRED)
 include_directories(${PROTOBUF_INCLUDE_DIR})
 # </PROTOBUF>
 
 # <ROCKSDB>
-find_package(Rocksdb REQUIRED)
 include_directories(${ROCKSDB_INCLUDE_DIR})
 # </ROCKSDB>
+
+# <GPERFTOOLS>
+if (GOOGLE_PERFTOOLS_FOUND)
+  include_directories(${GOOGLE_PERFTOOLS_INCLUDE_DIRS})
+  list(APPEND LINK_LIBS ${GOOGLE_PERFTOOLS_LIBRARIES})
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ltcmalloc -fno-builtin-malloc -fno-builtin-calloc -fno-builtin-realloc -fno-builtin-free")
+endif()
+# </GPERFTOOLS>
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/includes")
 
@@ -56,12 +66,16 @@ add_executable(qsearch main.cpp
   ./src/scorer/tfidf.cpp
 )
 
+list(APPEND LINK_LIBS ${Boost_LIBRARIES}
+${FOLLY_LIBRARIES}
+${Boost_FILESYSTEM_LIBRARY}
+${Boost_SYSTEM_LIBRARY}
+${PROTOBUF_LIBRARY}
+${ROCKSDB_LIBRARIES})
+
+MESSAGE(STATUS "Variable is" ${LINK_LIBS})
+
 target_link_libraries(
   qsearch
-  ${Boost_LIBRARIES} 
-  ${FOLLY_LIBRARIES}
-  ${Boost_FILESYSTEM_LIBRARY}
-  ${Boost_SYSTEM_LIBRARY}
-  ${PROTOBUF_LIBRARY}
-  ${ROCKSDB_LIBRARIES}
+  ${LINK_LIBS}
   )
