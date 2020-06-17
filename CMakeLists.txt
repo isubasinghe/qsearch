@@ -9,11 +9,14 @@ set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_CXX_FLAGS "-Wall -Wextra --pedantic -mavx -mavx2 -msse2 -DSTATIC_SEARCH")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
+# <BOOST>
 find_package(Boost REQUIRED)
 find_package(folly REQUIRED)
 find_package(Threads REQUIRED)
 find_package(gflags REQUIRED)
+# </BOOST>
 
+# <FOLLY>
 set_and_check(FOLLY_INCLUDE_DIR /usr/local/include/folly)
 set_and_check(FOLLY_CMAKE_DIR /usr/local/lib/cmake/folly)
 if (NOT TARGET Folly::folly)
@@ -26,6 +29,14 @@ set(FOLLY_LIBRARIES Folly::folly)
 if (NOT folly_FIND_QUIETLY)
   message(STATUS "Found folly: ${PACKAGE_PREFIX_DIR}")
 endif()
+# </FOLLY>
+
+
+# <PROTOBUF>
+include(FindProtobuf)
+find_package(Protobuf REQUIRED)
+include_directories(${PROTOBUF_INCLUDE_DIR})
+# </PROTOBUF>
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/includes")
 
@@ -38,4 +49,11 @@ add_executable(qsearch main.cpp
   ./src/scorer/tfidf.cpp
 )
 
-target_link_libraries(qsearch ${Boost_LIBRARIES} ${FOLLY_LIBRARIES})
+target_link_libraries(
+  qsearch
+  ${Boost_LIBRARIES} 
+  ${FOLLY_LIBRARIES}
+  ${Boost_FILESYSTEM_LIBRARY}
+  ${Boost_SYSTEM_LIBRARY}
+  ${PROTOBUF_LIBRARY}
+  )
