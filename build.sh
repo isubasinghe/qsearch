@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # build the service definitions
-cd grpc 
+cd grpc || exit
 protoc --proto_path=. --cpp_out=. ./ops.proto
 cd ..
 
