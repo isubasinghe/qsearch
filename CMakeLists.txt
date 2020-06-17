@@ -4,6 +4,8 @@ project(qsearch)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_BUILD_TYPE Release)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
+
 # Ensure that folly was compiled with the same SIMD flags
 # check here https://github.com/facebook/folly/blob/master/CMakeLists.txt
 set(CMAKE_CXX_FLAGS "-Wall -Wextra --pedantic -mavx -mavx2 -msse2 -DSTATIC_SEARCH")
@@ -38,6 +40,11 @@ find_package(Protobuf REQUIRED)
 include_directories(${PROTOBUF_INCLUDE_DIR})
 # </PROTOBUF>
 
+# <ROCKSDB>
+find_package(Rocksdb REQUIRED)
+include_directories(${ROCKSDB_INCLUDE_DIR})
+# </ROCKSDB>
+
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/includes")
 
 add_executable(qsearch main.cpp
@@ -56,4 +63,5 @@ target_link_libraries(
   ${Boost_FILESYSTEM_LIBRARY}
   ${Boost_SYSTEM_LIBRARY}
   ${PROTOBUF_LIBRARY}
+  ${ROCKSDB_LIBRARIES}
   )
