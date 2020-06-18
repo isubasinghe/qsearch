@@ -39,6 +39,9 @@ namespace docman {
     }
 
     bool Manager::insertDocument(std::string document) {
-        return this->insertDocument(document, "1");
+        boost::uuids::random_generator gen;
+        boost::uuids::uuid uuid = gen();
+        std::string uuidText = boost::lexical_cast<std::string>(uuid);
+        return this->insertDocument(document, uuidText);
     }
 }
