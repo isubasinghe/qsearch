@@ -61,7 +61,9 @@ bool fst::FST::addWord(std::string id, double score, std::string word) {
             currentEdge = edgeMap->find(word[i])->second;
             currentNode = currentEdge->to;
         }
-        currentNode->insert(id, score);
+        if(finalNode) {
+            currentNode->insert(id, score);
+        }
         edgeMap = currentEdge->getEdgeMap();
     }
     return true;
