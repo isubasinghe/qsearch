@@ -5,7 +5,7 @@ namespace fst {
 
     bool NodeContainer::insert(std::string id, double score) {
         NodeValue value(id, score);
-        this->docs.push_back(value);
+        this->docs.insert(value);
         return true;
     }
     

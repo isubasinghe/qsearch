@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <folly/AtomicHashmap.h>
+#include <set>
 #include <mutex>
 #include <shared_mutex>
 
@@ -14,7 +15,6 @@ namespace fst {
 
     typedef struct NodeValue {
         NodeValue(std::string id, double scr): docId(id), score(scr){}
-
         std::string docId;
         double score;
         bool operator > (const NodeValue& other) const {
@@ -24,10 +24,9 @@ namespace fst {
 
     class NodeContainer {
         private:
-            std::vector<NodeValue> docs;
+            std::set<NodeValue, std::greater<NodeValue>> docs;
         public:
             bool insert(std::string id, double score);
-            std::vector<NodeValue> topK(unsigned long long k);
     };
 
     class Node {
