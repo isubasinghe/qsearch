@@ -17,6 +17,11 @@ namespace fst {
     bool Node::insert(std::string id, double score) {
         return this->nodeContainer->insert(id, score);
     }
+
+    std::set<fst::NodeValue, std::greater<fst::NodeValue>>::iterator Node::getIterator() {
+        return this->nodeContainer->docs.begin();
+    }
+
     Node::~Node() {
         delete this->edgeMap;
     }

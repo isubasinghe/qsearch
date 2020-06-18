@@ -19,6 +19,7 @@ namespace fst {
             FST();
             ~FST();
             bool addWord(std::string id, double score, std::string word);
+            std::set<NodeValue, std::greater<NodeValue>>::iterator getIterator(std::string word);
     };
 };
 

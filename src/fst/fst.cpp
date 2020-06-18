@@ -52,13 +52,14 @@ bool fst::FST::addWord(std::string id, double score, std::string word) {
         bool finalNode = (i == word.size()-1);
         fst::Edge *currentEdge = nullptr;
         fst::Node *currentNode = nullptr;
-        if(edgeMap->find(word[i]) == edgeMap->end()) {
+        auto maybeValue = edgeMap->find(word[i]);
+        if(maybeValue == edgeMap->end()) {
             currentNode = new fst::Node(finalNode, word[i]);
             fst::Edge *edge = new fst::Edge(currentNode);
             currentEdge = edge;
             edgeMap->insert(std::make_pair(word[i], edge));
         }else {
-            currentEdge = edgeMap->find(word[i])->second;
+            currentEdge = maybeValue->second;
             currentNode = currentEdge->to;
         }
         if(finalNode) {
@@ -67,4 +68,19 @@ bool fst::FST::addWord(std::string id, double score, std::string word) {
         edgeMap = currentEdge->getEdgeMap();
     }
     return true;
+}
+
+std::set<fst::NodeValue, std::greater<fst::NodeValue>>::iterator fst::FST::getIterator(std::string word) {
+    folly::AtomicHashMap<char, fst::Edge *> *edgeMap = this->edgeMap;
+    fst::Node *node = nullptr;
+    std::set<fst::NodeValue, std::greater<fst::NodeValue>>::iterator iterator;
+    for(std::string::size_type i = 0; i < word.size(); i++) {
+        auto maybeValue = edgeMap->find(word[i]);
+        if(maybeValue == edgeMap->end()) {
+            return iterator;
+        }
+        node = maybeValue->second->to;
+        edgeMap = maybeValue->second->getEdgeMap();
+    }
+    return node->getIterator();
 }

@@ -24,6 +24,7 @@ namespace fst {
 
     class NodeContainer {
         private:
+            friend class Node;
             std::set<NodeValue, std::greater<NodeValue>> docs;
         public:
             bool insert(std::string id, double score);
@@ -38,6 +39,7 @@ namespace fst {
         Node(bool finalNode, char value);
         ~Node();
         bool insert(std::string id, double score);
+        std::set<fst::NodeValue, std::greater<fst::NodeValue>>::iterator getIterator();
         folly::AtomicHashMap<char, fst::Edge *> *edgeMap;
     };   
 };
