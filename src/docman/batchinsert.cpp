@@ -1,0 +1,1 @@
+#include "docman/batchinsert.hpp"

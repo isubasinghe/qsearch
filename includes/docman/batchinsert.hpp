@@ -1,0 +1,5 @@
+#ifndef BATCH_INSERT_HPP
+#define BATCH_INSERT_HPP
+
+
+#endif // BATCH_INSERT_HPP
