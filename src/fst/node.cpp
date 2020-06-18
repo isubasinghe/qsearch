@@ -14,7 +14,9 @@ namespace fst {
         this->value = value;
         this->edgeMap = new folly::AtomicHashMap<char, fst::Edge *>(36);
     }
-
+    bool Node::insert(std::string id, double score) {
+        return this->nodeContainer->insert(id, score);
+    }
     Node::~Node() {
         delete this->edgeMap;
     }

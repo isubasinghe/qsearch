@@ -6,11 +6,10 @@
 
 namespace fst {
     class Edge {
-        private:
-            fst::Node *to;
         public:
             Edge(fst::Node *to);
             ~Edge();
+            fst::Node *to;
             folly::AtomicHashMap<char, fst::Edge *> *getEdgeMap();
     };
 };

@@ -37,8 +37,7 @@ namespace fst {
     public:
         Node(bool finalNode, char value);
         ~Node();
-        void initaliseMap();
-        void addEdge(char value, Node *next);
+        bool insert(std::string id, double score);
         folly::AtomicHashMap<char, fst::Edge *> *edgeMap;
     };   
 };
