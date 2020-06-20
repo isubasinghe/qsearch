@@ -12,16 +12,20 @@
 #include <boost/lexical_cast.hpp>
 #include <iostream>
 
+#include "fst/fst.hpp"
+#include "scorer/scorer.hpp"
+#include "scorer/tfidf.hpp"
+
 namespace docman {
 
     class Manager {
         private:
-            bool insertToFST(std::string word);
-            bool processWord(std::string word);
+            bool insertToFST(std::string &id, double score, const std::string &word);
             bool insertToDocuments(std::string id, std::string document);
             folly::F14FastMap<std::string, std::string> documents;
             folly::F14FastMap<std::string, unsigned long long> wordMap;
-          
+            fst::FST fst;
+            scorer::Scorer *scorer;
         public:
             bool insertDocument(std::string document, std::string id);
             bool insertDocument(std::string document);

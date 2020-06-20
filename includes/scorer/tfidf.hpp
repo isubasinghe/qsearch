@@ -9,8 +9,10 @@
 namespace scorer {
     class TFIDFScorer : public Scorer {
         public:
-            TFIDFScorer(folly::F14FastMap<std::string, std::string> *documents);
+            TFIDFScorer(folly::F14FastMap<std::string, std::string> *documents, 
+                folly::F14FastMap<std::string, unsigned long long> *wordFreqMap);
             ~TFIDFScorer();
+            double score(const std::string &word, unsigned long long termCount, unsigned long long docTermCount);
     };
 };
 

@@ -2,19 +2,14 @@
 
 namespace docman {
     Manager::Manager() {
-
+        this->scorer = new scorer::TFIDFScorer(&(this->documents), &(this->wordMap));
     }
     Manager::~Manager() {
-
+        delete this->scorer;
     }
 
-    bool Manager::insertToFST(std::string word) {
-        return true;
-    }
-
-    bool Manager::processWord(std::string word) {
-        this->insertToFST(word);
-        return true;
+    bool Manager::insertToFST(std::string &id, double score, const std::string &word) {
+        return fst.addWord(id, score, word);
     }
 
     bool Manager::insertToDocuments(std::string id, std::string document) {
@@ -24,16 +19,24 @@ namespace docman {
 
     bool Manager::insertDocument(std::string document, std::string id) {
         boost::tokenizer<> tok(document);
-        folly::F14FastSet<std::string> set;
+        folly::F14FastMap<std::string, unsigned long long> docWords;
+        unsigned long long wordsCount = 0;
         if(!(this->insertToDocuments(id, document))) {
             return false;
         }
         for(boost::tokenizer<>::iterator beg=tok.begin(); beg!=tok.end();++beg){
-            this->processWord(*beg);
-            set.insert(*beg);
+            docWords[*beg] += 1;
+            wordsCount++;
         }
-        for (std::string entry: set) {
-            (this->wordMap)[entry]++;
+        for (auto entry: docWords) {
+            // Need to perform this operation before score calculation.
+            // update the number of documents with this word by 1
+            (this->wordMap)[entry.first]++;
+
+            double score = this->scorer->score(entry.first, entry.second, wordsCount);
+            this->insertToFST(id, score, entry.first);
+
+
         }
         return true;
     }
