@@ -12,6 +12,7 @@
 #include <boost/lexical_cast.hpp>
 #include <iostream>
 
+#include "docman/batchinsert.hpp"
 #include "fst/fst.hpp"
 #include "scorer/scorer.hpp"
 #include "scorer/tfidf.hpp"
@@ -28,6 +29,7 @@ namespace docman {
             fst::FST fst;
             scorer::Scorer *scorer;
         public:
+            Manager(BatchInserter batchInsertJob);
             Manager();
             ~Manager();
             bool insertDocument(std::string document, std::string id);
