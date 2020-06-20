@@ -21,6 +21,8 @@ namespace docman {
             folly::F14FastMap<std::string, unsigned long long> wordMap;
             friend class Manager;
         public:
+            BatchInserter();
+            ~BatchInserter();
             void addDocument(std::string doc);
     };
 };

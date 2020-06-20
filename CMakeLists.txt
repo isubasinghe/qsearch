@@ -61,9 +61,11 @@ add_executable(qsearch main.cpp
   ./src/fst/fst.cpp
   ./src/fst/node.cpp
   ./src/fst/edge.cpp
-  ./src/docman/manager.cpp
   ./src/scorer/scorer.cpp
   ./src/scorer/tfidf.cpp
+  ./src/docman/manager.cpp
+  ./src/docman/batchinsert.cpp
+  ./src/raft/raft.cpp
 )
 
 list(APPEND LINK_LIBS ${Boost_LIBRARIES}
