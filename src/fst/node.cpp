@@ -13,6 +13,7 @@ namespace fst {
         this->finalNode = finalNode;
         this->value = value;
         this->edgeMap = new folly::AtomicHashMap<char, fst::Edge *>(36);
+        this->nodeContainer = new NodeContainer();
     }
     bool Node::insert(std::string id, double score) {
         return this->nodeContainer->insert(id, score);

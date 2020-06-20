@@ -6,11 +6,9 @@
 #include "fst/fst.hpp"
 
 int main(int argc, char *argv[]) {
-    fst::FST *fst = new fst::FST();
-
-
-
-
-    delete fst;
+    docman::Manager manager;
+    manager.insertDocument("why am i even here, idk idk");
+    manager.insertDocument("jaberwocky idk idk");
+    manager.insertDocument("idk who i am even anymore");
     return 0;
 }

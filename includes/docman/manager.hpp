@@ -22,16 +22,17 @@ namespace docman {
         private:
             bool insertToFST(std::string &id, double score, const std::string &word);
             bool insertToDocuments(std::string id, std::string document);
+            void rebuildIndicies(std::string &word);
             folly::F14FastMap<std::string, std::string> documents;
             folly::F14FastMap<std::string, unsigned long long> wordMap;
             fst::FST fst;
             scorer::Scorer *scorer;
         public:
-            bool insertDocument(std::string document, std::string id);
-            bool insertDocument(std::string document);
-            std::string retrieveDocument(std::string id);
             Manager();
             ~Manager();
+            bool insertDocument(std::string document, std::string id);
+            bool insertDocument(std::string document);
+            std::string retrieveDocument(std::string id); 
     };
 };
 
