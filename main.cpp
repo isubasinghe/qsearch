@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
 
     docman::Manager manager(batchInserter);
 
-
+    delete batchInserter;
 
     return 0;
 }
