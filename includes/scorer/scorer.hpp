@@ -13,6 +13,8 @@ namespace scorer {
         public:
             Scorer(folly::F14FastMap<std::string, std::string> *documents, 
                 folly::F14FastMap<std::string, unsigned long long> *wordFreqMap);
+            virtual double score(unsigned long long docCount, unsigned long long docAppearances, 
+                    unsigned long long termCount, unsigned long long docTermCount) = 0;
             virtual double score(const std::string &word, unsigned long long termCount, unsigned long long docTermCount) = 0;
             virtual ~Scorer();
     };

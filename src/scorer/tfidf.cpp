@@ -6,11 +6,16 @@ namespace scorer {
 
     }
 
-    double TFIDFScorer::score(const std::string &word, unsigned long long termCount, unsigned long long docTermCount) {
+    double TFIDFScorer::score(unsigned long long docCount, unsigned long long docAppearances, 
+            unsigned long long termCount, unsigned long long docTermCount) {
         double tf = (termCount / (docTermCount + 1.0));
-        double idf = log(((this->documents->size())/(*(this->wordFreqMap))[word]) + 1.0);
-        double tfidf2 = tf * pow(idf, 2);
-        return tfidf2;
+        double idf = log(docCount/(docAppearances + 1.0));
+        return tf * pow(idf, 2);        
+    }
+
+    double TFIDFScorer::score(const std::string &word, unsigned long long termCount, 
+        unsigned long long docTermCount) {
+        return this->score(this->documents->size(), (*(this->wordFreqMap))[word], termCount, docTermCount);
     } 
 
     TFIDFScorer::~TFIDFScorer() {

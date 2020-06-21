@@ -4,6 +4,18 @@ namespace docman {
     Manager::Manager() {
         this->scorer = new scorer::TFIDFScorer(&(this->documents), &(this->wordMap));
     }
+    Manager::Manager(BatchInserter &bi) {
+        this->scorer = new scorer::TFIDFScorer(&(this->documents), &(this->wordMap));
+        this->wordMap = bi.wordMap;
+        unsigned long long docCount = bi.documents.size();
+        for(auto doc: bi.documents) {
+            (this->documents)[doc.first] = (doc.second)->content;
+            for(auto wordMap: ((doc.second)->docWords)) { 
+                double score = this->scorer->score(docCount, (this->wordMap)[wordMap.first], (doc.second->docWords)[doc.first], doc.second->wordsCount);
+                fst.addWord(wordMap.first, score, doc.first);
+            }
+        }
+    }
     Manager::~Manager() {
         delete this->scorer;
     }

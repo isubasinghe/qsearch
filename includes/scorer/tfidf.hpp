@@ -12,6 +12,8 @@ namespace scorer {
             TFIDFScorer(folly::F14FastMap<std::string, std::string> *documents, 
                 folly::F14FastMap<std::string, unsigned long long> *wordFreqMap);
             ~TFIDFScorer();
+            double score(unsigned long long docCount, unsigned long long docAppearances, 
+                    unsigned long long termCount, unsigned long long docTermCount);
             double score(const std::string &word, unsigned long long termCount, unsigned long long docTermCount);
     };
 };
