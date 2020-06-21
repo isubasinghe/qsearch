@@ -6,9 +6,14 @@
 #include "fst/fst.hpp"
 
 int main(int argc, char *argv[]) {
-    docman::Manager manager;
-    manager.insertDocument("why am i even here, idk idk");
-    manager.insertDocument("jaberwocky idk idk");
-    manager.insertDocument("idk who i am even anymore");
+    docman::BatchInserter *batchInserter = new docman::BatchInserter();
+    batchInserter->addDocument("1", "why am i even here, idk idk");
+    batchInserter->addDocument("2", "jaberwocky idk idk");
+    batchInserter->addDocument("3", "idk who i am even anymore");
+
+    docman::Manager manager(batchInserter);
+
+
+
     return 0;
 }

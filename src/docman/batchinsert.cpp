@@ -2,7 +2,7 @@
 
 namespace docman {
     BatchInserter::BatchInserter() {
-
+        this->documents.clear();
     }
     void BatchInserter::addDocument(std::string id, std::string document) {
         boost::tokenizer<> tok(document);
@@ -15,6 +15,7 @@ namespace docman {
         for(auto entry: (doc->docWords)) {
             (this->wordMap)[entry.first]++;
         }
+        std::cout << "CREATING ENTRY: " << id << "\t" << doc << std::endl;
         (this->documents)[id] = doc;
     }
     void BatchInserter::addDocument(std::string document) {
@@ -25,7 +26,8 @@ namespace docman {
     }
     BatchInserter::~BatchInserter() {
         for (auto entry: (this->documents)) {
-            delete entry.second; 
+            std::cout << "MAPS: " << entry.first << "\t" << entry.second << std::endl;
         }
+        std::cout << "DONE" << std::endl;
     }
 };

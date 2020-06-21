@@ -29,7 +29,7 @@ namespace docman {
             fst::FST fst;
             scorer::Scorer *scorer;
         public:
-            Manager(BatchInserter &batchInsertJob);
+            Manager(BatchInserter *batchInsertJob);
             Manager();
             ~Manager();
             bool insertDocument(std::string document, std::string id);

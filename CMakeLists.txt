@@ -8,8 +8,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
 # Ensure that folly was compiled with the same SIMD flags
 # check here https://github.com/facebook/folly/blob/master/CMakeLists.txt
-set(CMAKE_CXX_FLAGS "-Wall -Wextra --pedantic -mavx -mavx2 -msse2 -DSTATIC_SEARCH")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra --pedantic -mavx -mavx2 -msse2 -DSTATIC_SEARCH -g")
+# set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 list(APPEND LINK_LIBS "")
 
