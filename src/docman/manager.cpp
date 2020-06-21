@@ -11,7 +11,8 @@ namespace docman {
         for(auto doc: bi.documents) {
             (this->documents)[doc.first] = (doc.second)->content;
             for(auto wordMap: ((doc.second)->docWords)) { 
-                double score = this->scorer->score(docCount, (this->wordMap)[wordMap.first], (doc.second->docWords)[doc.first], doc.second->wordsCount);
+                double score = this->scorer->score(docCount, (this->wordMap)[wordMap.first], 
+                    (doc.second->docWords)[doc.first], doc.second->wordsCount);
                 fst.addWord(wordMap.first, score, doc.first);
             }
         }
