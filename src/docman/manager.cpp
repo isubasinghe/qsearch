@@ -16,6 +16,7 @@ namespace docman {
                 double score = this->scorer->score(size, 
                     (*(this->wordMap))[mappedValues.first], 
                         mappedValues.second, (docEntry.second)->wordsCount);
+                this->fst.addWord(docEntry.first, score, mappedValues.first);
             }
         }
     }
