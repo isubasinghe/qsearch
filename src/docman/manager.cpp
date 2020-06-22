@@ -9,12 +9,15 @@ namespace docman {
     Manager::Manager(BatchInserter *bi) {
         this->wordMap = bi->wordMap;
         this->scorer = new scorer::TFIDFScorer(&(this->documents), this->wordMap);
-        // for(auto docEntry: (bi->documents)) {
-        //     folly::F14FastMap<std::string, unsigned long long> docWords = (docEntry.second)->docWords;
-        //     for(auto mappedValues: docWords) {
-               
-        //     }
-        // }
+        unsigned long long size = (bi->documents).size();
+        for(auto docEntry: (bi->documents)) {
+            folly::F14FastMap<std::string, unsigned long long>& docWords = (docEntry.second)->docWords;
+            for(auto mappedValues: docWords) {
+                double score = this->scorer->score(size, 
+                    (*(this->wordMap))[mappedValues.first], 
+                        mappedValues.second, (docEntry.second)->wordsCount);
+            }
+        }
     }
     Manager::~Manager() {
         delete this->scorer;

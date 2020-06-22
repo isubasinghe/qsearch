@@ -10,11 +10,10 @@ namespace docman {
         DocMetadata *doc = new DocMetadata();
         doc->content = document;
         for(boost::tokenizer<>::iterator beg=tok.begin(); beg != tok.end(); ++beg) {
-            std::cout << "INSERTING :" << (*beg) << std::endl;
-            (*(doc->docWords))[*beg] += 1;
+            (doc->docWords)[*beg] += 1;
             (doc->wordsCount)++;
         }
-        for(auto entry: *((doc->docWords))) {
+        for(auto entry: (doc->docWords)) {
             (*(this->wordMap))[entry.first]++;
         }
         (this->documents)[id] = doc;

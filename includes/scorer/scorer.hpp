@@ -5,6 +5,10 @@
 #include <iostream>
 #include <cmath>
 
+#ifndef EPSILON
+#define EPSILON 0.001
+#endif // EPSILON
+
 namespace scorer {
     class Scorer {
         protected:

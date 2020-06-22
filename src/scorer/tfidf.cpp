@@ -8,8 +8,8 @@ namespace scorer {
 
     double TFIDFScorer::score(unsigned long long docCount, unsigned long long docAppearances, 
             unsigned long long termCount, unsigned long long docTermCount) {
-        double tf = (termCount / (docTermCount + 1.0));
-        double idf = log(docCount/(docAppearances + 1.0));
+        double tf = (termCount / (docTermCount + EPSILON));
+        double idf = log(docCount/(docAppearances + EPSILON));
         return tf * pow(idf, 2);        
     }
 
