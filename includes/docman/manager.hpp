@@ -25,7 +25,7 @@ namespace docman {
             bool insertToDocuments(std::string id, std::string document);
             void rebuildIndicies(std::string &word);
             folly::F14FastMap<std::string, std::string> documents;
-            folly::F14FastMap<std::string, unsigned long long> wordMap;
+            folly::F14FastMap<std::string, unsigned long long> *wordMap;
             fst::FST fst;
             scorer::Scorer *scorer;
         public:

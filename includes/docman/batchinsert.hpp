@@ -18,12 +18,12 @@ namespace docman {
     typedef struct {
         std::string content;
         unsigned long long wordsCount = 0;
-        folly::F14FastMap<std::string, unsigned long long> docWords;
+        folly::F14FastMap<std::string, unsigned long long> *docWords;
     } DocMetadata;
     class BatchInserter {
         private:
             folly::F14FastMap<std::string, DocMetadata *> documents;
-            folly::F14FastMap<std::string, unsigned long long> wordMap;
+            folly::F14FastMap<std::string, unsigned long long> *wordMap;
             friend class Manager;
         public:
             BatchInserter();

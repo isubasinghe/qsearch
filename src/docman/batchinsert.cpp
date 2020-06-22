@@ -2,18 +2,20 @@
 
 namespace docman {
     BatchInserter::BatchInserter() {
-        this->documents.clear();
+        // To be deleted by docman::Manager or by calling the clearWordMap() method
+        this->wordMap = new folly::F14FastMap<std::string, unsigned long long>(20000);
     }
     void BatchInserter::addDocument(std::string id, std::string document) {
         boost::tokenizer<> tok(document);
         DocMetadata *doc = new DocMetadata();
         doc->content = document;
         for(boost::tokenizer<>::iterator beg=tok.begin(); beg != tok.end(); ++beg) {
-            (doc->docWords)[*beg] += 1;
+            std::cout << "INSERTING :" << (*beg) << std::endl;
+            (*(doc->docWords))[*beg] += 1;
             (doc->wordsCount)++;
         }
-        for(auto entry: (doc->docWords)) {
-            (this->wordMap)[entry.first]++;
+        for(auto entry: *((doc->docWords))) {
+            (*(this->wordMap))[entry.first]++;
         }
         (this->documents)[id] = doc;
     }
