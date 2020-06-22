@@ -17,7 +17,6 @@ find_package(Boost REQUIRED)
 find_package(folly REQUIRED)
 find_package(Threads REQUIRED)
 find_package(gflags REQUIRED)
-find_package(Protobuf REQUIRED)
 find_package(Rocksdb REQUIRED)
 find_package(GooglePerftools)
 
@@ -37,11 +36,6 @@ if (NOT folly_FIND_QUIETLY)
 endif()
 # </FOLLY>
 
-
-# <PROTOBUF>
-include(FindProtobuf)
-include_directories(${PROTOBUF_INCLUDE_DIR})
-# </PROTOBUF>
 
 # <ROCKSDB>
 include_directories(${ROCKSDB_INCLUDE_DIR})
@@ -72,7 +66,6 @@ list(APPEND LINK_LIBS ${Boost_LIBRARIES}
 ${FOLLY_LIBRARIES}
 ${Boost_FILESYSTEM_LIBRARY}
 ${Boost_SYSTEM_LIBRARY}
-${PROTOBUF_LIBRARY}
 ${ROCKSDB_LIBRARIES})
 
 MESSAGE(STATUS "Variable is" ${LINK_LIBS})
