@@ -16,6 +16,7 @@ Please make sure to update tests as appropriate.
 * Compression and fast retrieval of words thanks to the Automata that powers the query engine. 
 
 ## TODO
+- [ ] Add document length normalisation
 - [ ] Add support for write operations without sacrificing read speed
 - [ ] Implement sift4 inheriting from some Corrector class in order to add fuzzy search
 - [ ] Implement categorical search without performance hits (perhaps map categories to trees in the underlying sorted score container)
