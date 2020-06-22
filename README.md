@@ -11,5 +11,17 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 Please make sure to update tests as appropriate.
 
+## Features 
+* Batch Insert documents at the initialisation of the document manager
+* Compression and fast retrieval of words thanks to the Automata that powers the query engine. 
+
+## TODO
+- [ ] Add support for write operations without sacrificing read speed
+- [ ] Implement sift4 inheriting from some Corrector class in order to add fuzzy search
+- [ ] Implement categorical search without performance hits (perhaps map categories to trees in the underlying sorted score container)
+- [ ] expose API over an Abstract transport class
+- [ ] expose API over HTTP
+- [ ] Implement Raft over TCP or RSocket
+- [ ] Implement ringpop in order to distribute documents over cluster
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
