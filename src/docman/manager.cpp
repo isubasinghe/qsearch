@@ -68,4 +68,8 @@ namespace docman {
         std::string uuidText = boost::lexical_cast<std::string>(uuid);
         return this->insertDocument(document, uuidText);
     }
+    
+    boost::container::list<std::string> search(std::string& query) {
+        
+    }
 }

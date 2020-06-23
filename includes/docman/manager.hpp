@@ -11,6 +11,8 @@
 #include <boost/uuid/random_generator.hpp>
 #include <boost/lexical_cast.hpp>
 #include <iostream>
+#include <boost/container/list.hpp>
+
 
 #include "docman/batchinsert.hpp"
 #include "fst/fst.hpp"
@@ -35,7 +37,8 @@ namespace docman {
             ~Manager();
             bool insertDocument(std::string document, std::string id);
             bool insertDocument(std::string document);
-            std::string retrieveDocument(std::string id); 
+            std::string retrieveDocument(std::string id);
+            boost::container::list<std::string> search(std::string &query); 
     };
 };
 
