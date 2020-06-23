@@ -2,6 +2,7 @@
 
 namespace docman {
     Manager::Manager() {
+        throw exceptions::NotImplementedException();
         this->scorer = new scorer::TFIDFScorer(&(this->documents), this->wordMap);
         // Guess about the number of words
         this->wordMap = new folly::F14FastMap<std::string, unsigned long long>(20000);
@@ -36,6 +37,7 @@ namespace docman {
     }
 
     bool Manager::insertDocument(std::string document, std::string id) {
+        throw exceptions::NotImplementedException();
         boost::tokenizer<> tok(document);
         folly::F14FastMap<std::string, unsigned long long> docWords;
         unsigned long long wordsCount = 0;
@@ -60,6 +62,7 @@ namespace docman {
     }
 
     bool Manager::insertDocument(std::string document) {
+        throw exceptions::NotImplementedException();
         boost::uuids::random_generator gen;
         boost::uuids::uuid uuid = gen();
         std::string uuidText = boost::lexical_cast<std::string>(uuid);

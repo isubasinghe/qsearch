@@ -16,6 +16,7 @@
 #include "fst/fst.hpp"
 #include "scorer/scorer.hpp"
 #include "scorer/tfidf.hpp"
+#include "exceptions/notimpl.hpp"
 
 namespace docman {
 
