@@ -6,10 +6,15 @@ namespace docman {
         this->scorer = new scorer::TFIDFScorer(&(this->documents), this->wordMap);
         // Guess about the number of words
         this->wordMap = new folly::F14FastMap<std::string, unsigned long long>(20000);
+        // May return 0 if it fails to detect, so add 1
+        this->threadPoolExec = new folly::CPUThreadPoolExecutor(std::thread::hardware_concurrency() + 1);
     }
     Manager::Manager(BatchInserter *bi) {
         this->wordMap = bi->wordMap;
         this->scorer = new scorer::TFIDFScorer(&(this->documents), this->wordMap);
+         // May return 0 if it fails to detect, so add 1
+        this->threadPoolExec = new folly::CPUThreadPoolExecutor(std::thread::hardware_concurrency() + 1);
+        
         unsigned long long size = (bi->documents).size();
         for(auto docEntry: (bi->documents)) {
             folly::F14FastMap<std::string, unsigned long long>& docWords = (docEntry.second)->docWords;
@@ -68,8 +73,23 @@ namespace docman {
         std::string uuidText = boost::lexical_cast<std::string>(uuid);
         return this->insertDocument(document, uuidText);
     }
+
+    folly::Future<std::set<fst::NodeValue, std::greater<fst::NodeValue>>::iterator> Manager::getDocumentListing(std::string word) {
+        auto lambda = [this](std::string word) -> auto {
+            return (this->fst).getIterator(word);
+        };
+       folly::Future<std::set<fst::NodeValue, std::greater<fst::NodeValue>>::iterator> future = 
+            folly::via(this->threadPoolExec, std::bind(lambda, word));
+        return future;
+    }
     
-    boost::container::list<std::string> search(std::string& query) {
+    boost::container::list<std::string> Manager::search(std::string& query) {
+        boost::tokenizer<> tok(query);
+        std::vector<folly::Future<std::set<fst::NodeValue, std::greater<fst::NodeValue>>::iterator>> futures;
+        for(boost::tokenizer<>::iterator beg=tok.begin(); beg != tok.end(); ++beg) {
+            futures.push_back(this->getDocumentListing(*beg));
+        }
+        auto future = folly::collect(futures);
         
     }
 }

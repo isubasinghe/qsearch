@@ -1,17 +1,24 @@
 #ifndef MANAGER_HPP
 #define MANAGER_HPP
 
+#include <iostream>
+#include <vector>
+#include <set>
+#include <thread>
+
 #include <folly/container/F14Map.h>
 #include <folly/container/F14Set.h>
 #include <folly/AtomicHashmap.h>
 #include <folly/AtomicLinkedList.h>
+#include <folly/futures/Future.h> 
+#include <folly/executors/CPUThreadPoolExecutor.h>
 #include <boost/tokenizer.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/uuid/random_generator.hpp>
 #include <boost/lexical_cast.hpp>
-#include <iostream>
 #include <boost/container/list.hpp>
+#include <boost/heap/fibonacci_heap.hpp>
 
 
 #include "docman/batchinsert.hpp"
@@ -21,16 +28,17 @@
 #include "exceptions/notimpl.hpp"
 
 namespace docman {
-
     class Manager {
         private:
-            bool insertToFST(std::string &id, double score, const std::string &word);
-            bool insertToDocuments(std::string id, std::string document);
-            void rebuildIndicies(std::string &word);
             folly::F14FastMap<std::string, std::string> documents;
             folly::F14FastMap<std::string, unsigned long long> *wordMap;
             fst::FST fst;
             scorer::Scorer *scorer;
+            folly::CPUThreadPoolExecutor * threadPoolExec;
+            bool insertToFST(std::string &id, double score, const std::string &word);
+            bool insertToDocuments(std::string id, std::string document);
+            void rebuildIndicies(std::string &word);
+            folly::Future<std::set<fst::NodeValue, std::greater<fst::NodeValue>>::iterator> getDocumentListing(std::string word);
         public:
             Manager(BatchInserter *batchInsertJob);
             Manager();
