@@ -73,23 +73,77 @@ namespace docman {
         std::string uuidText = boost::lexical_cast<std::string>(uuid);
         return this->insertDocument(document, uuidText);
     }
-
-    folly::Future<std::set<fst::NodeValue, std::greater<fst::NodeValue>>::iterator> Manager::getDocumentListing(std::string word) {
-        auto lambda = [this](std::string word) -> auto {
-            return (this->fst).getIterator(word);
-        };
-       folly::Future<std::set<fst::NodeValue, std::greater<fst::NodeValue>>::iterator> future = 
-            folly::via(this->threadPoolExec, std::bind(lambda, word));
-        return future;
-    }
     
-    boost::container::list<std::string> Manager::search(std::string& query) {
+    boost::container::list<std::string> Manager::search(std::string query, unsigned long long k) {
+        boost::container::list<std::string> ids;
         boost::tokenizer<> tok(query);
-        std::vector<folly::Future<std::set<fst::NodeValue, std::greater<fst::NodeValue>>::iterator>> futures;
+     
+        std::vector<fst::scoreIteratorPair> results;
         for(boost::tokenizer<>::iterator beg=tok.begin(); beg != tok.end(); ++beg) {
-            futures.push_back(this->getDocumentListing(*beg));
+            std::string word = *beg;
+            auto iterPair = (this->fst).getIterator(word);
+            results.push_back(iterPair);
         }
-        auto future = folly::collect(futures);
+
+        boost::heap::fibonacci_heap<SearchResult, boost::heap::compare<SearchResultCompare>> topK;
+
+        boost::heap::fibonacci_heap<fst::scoreIteratorPair, boost::heap::compare<KWayMergeCompare>> extractHeap;
+
+        folly::F14FastMap<std::string, boost::heap::fibonacci_heap<SearchResult, 
+            boost::heap::compare<SearchResultCompare>>::handle_type> handleMap(k);
+
+        for(fst::scoreIteratorPair& result: results) {
+            if(std::get<0>(result) != std::get<1>(result)) {
+                extractHeap.push(result);
+            }
+        }
+
+        unsigned long long documents = 0;
+
+        while(documents < k) {
+            if(extractHeap.size() < 1) {
+                break;
+            }
+
+            fst::scoreIteratorPair iterPair = extractHeap.top();
+            extractHeap.pop();
+            std::string id = (*std::get<0>(iterPair)).docId;
+            double score = (*std::get<0>(iterPair)).score;
+            std::get<0>(iterPair)++;
+            if(std::get<0>(iterPair) != std::get<1>(iterPair)) {
+                extractHeap.push(iterPair);
+            }
+
+            auto maybeValue = handleMap.find(id);
+            if(maybeValue == handleMap.end()) {
+                SearchResult searchResult;
+                searchResult.id = id;
+                searchResult.score = score;
+                if((topK.size() < k)) {
+                    auto handle = topK.push(searchResult);
+                    handleMap[id] = handle;
+                    documents++;
+                }else {
+                    auto value = topK.top();
+                    if(value.score < score) {
+                        topK.pop();
+                        handleMap.erase(value.id);
+                        auto handle = topK.push(searchResult);
+                        handleMap[id] = handle;
+                        documents++;
+                    }
+                }
+            }else {
+                (*(maybeValue->second)).score += score;
+                topK.decrease(maybeValue->second);
+            }
+        }
+
+        for(auto& result: topK) {
+            std::cout << result.id << "\t" << result.score << std::endl;
+        }
+        
+        return ids;
         
     }
 }

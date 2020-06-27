@@ -2,9 +2,10 @@
 #define NODE_HPP
 
 #include <iostream>
-#include <folly/AtomicHashmap.h>
+#include <folly/container/F14Map.h>
 #include <set>
 #include <mutex>
+#include <tuple>
 #include <shared_mutex>
 
 #include "fst/alphabet.hpp"
@@ -30,6 +31,8 @@ namespace fst {
             bool insert(std::string id, double score);
     };
 
+    typedef std::tuple<std::set<NodeValue, std::greater<NodeValue>>::iterator, std::set<NodeValue, std::greater<NodeValue>>::iterator> scoreIteratorPair;
+
     class Node {
     private:
         NodeContainer *nodeContainer = nullptr;
@@ -39,8 +42,8 @@ namespace fst {
         Node(bool finalNode, char value);
         ~Node();
         bool insert(std::string id, double score);
-        std::set<fst::NodeValue, std::greater<fst::NodeValue>>::iterator getIterator();
-        folly::AtomicHashMap<char, fst::Edge *> *edgeMap;
+        scoreIteratorPair getIterator();
+        folly::F14FastMap<char, fst::Edge *> *edgeMap;
     };   
 };
 

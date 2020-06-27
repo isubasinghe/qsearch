@@ -3,7 +3,6 @@
 
 #include <folly/container/F14Map.h>
 #include <folly/container/F14Set.h>
-#include <folly/AtomicHashmap.h>
 #include <folly/AtomicLinkedList.h>
 #include <boost/tokenizer.hpp>
 #include <boost/uuid/uuid.hpp>

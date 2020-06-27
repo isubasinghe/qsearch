@@ -2,7 +2,7 @@
 
 
 fst::FST::FST() {
-    this->edgeMap = new folly::AtomicHashMap<char, fst::Edge *>(ALPHABET_SIZE);
+    this->edgeMap = new folly::F14FastMap<char, fst::Edge *>(ALPHABET_SIZE);
 }
 
 
@@ -16,22 +16,22 @@ fst::FST::~FST() {
     std::vector<fst::Edge *> toDelete;
 
     // queue for breadth first search
-    std::queue<folly::AtomicHashMap<char, fst::Edge *> *> queue;
+    std::queue<folly::F14FastMap<char, fst::Edge *> *> queue;
 
 
     // initialise first level for breadth first search
     for (auto& x : *(this->edgeMap)) {
-        folly::AtomicHashMap<char, fst::Edge *> *edgeMap = x.second->getEdgeMap();
+        folly::F14FastMap<char, fst::Edge *> *edgeMap = x.second->getEdgeMap();
         queue.push(edgeMap);
         fst::Edge *edge = (x.second);     
         toDelete.push_back(edge);
     }
 
     while(queue.size() > 0) {
-        folly::AtomicHashMap<char, fst::Edge *> *edgeMap = queue.front();
+        folly::F14FastMap<char, fst::Edge *> *edgeMap = queue.front();
         queue.pop();
         for (auto& x : *edgeMap) {
-            folly::AtomicHashMap<char, fst::Edge *> *edgeMap = x.second->getEdgeMap();
+            folly::F14FastMap<char, fst::Edge *> *edgeMap = x.second->getEdgeMap();
             queue.push(edgeMap);
             fst::Edge *edge = (x.second);     
             toDelete.push_back(edge);
@@ -47,7 +47,8 @@ fst::FST::~FST() {
 
 
 bool fst::FST::addWord(std::string id, double score, std::string word) {
-    folly::AtomicHashMap<char, fst::Edge *> *edgeMap = this->edgeMap;
+    std::cout << id << "\t" << score << "\t" << word << std::endl;
+    folly::F14FastMap<char, fst::Edge *> *edgeMap = this->edgeMap;
     for(std::string::size_type i = 0; i < word.size(); i++) {
         bool finalNode = (i == word.size()-1);
         fst::Edge *currentEdge = nullptr;
@@ -70,17 +71,19 @@ bool fst::FST::addWord(std::string id, double score, std::string word) {
     return true;
 }
 
-std::set<fst::NodeValue, std::greater<fst::NodeValue>>::iterator fst::FST::getIterator(std::string word) {
-    folly::AtomicHashMap<char, fst::Edge *> *edgeMap = this->edgeMap;
+fst::scoreIteratorPair fst::FST::getIterator(std::string word) {
+    folly::F14FastMap<char, fst::Edge *> *edgeMap = this->edgeMap;
     fst::Node *node = nullptr;
-    std::set<fst::NodeValue, std::greater<fst::NodeValue>>::iterator iterator;
+    std::set<fst::NodeValue, std::greater<fst::NodeValue>> fakeSet;
+
     for(std::string::size_type i = 0; i < word.size(); i++) {
         auto maybeValue = edgeMap->find(word[i]);
         if(maybeValue == edgeMap->end()) {
-            return iterator;
+            return std::make_tuple(fakeSet.begin(), fakeSet.end());
         }
         node = maybeValue->second->to;
-        edgeMap = maybeValue->second->getEdgeMap();
+        auto pedge = maybeValue->second;
+        edgeMap = pedge->getEdgeMap();
     }
     return node->getIterator();
 }

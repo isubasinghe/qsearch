@@ -8,7 +8,7 @@ namespace fst {
     Edge::~Edge() {
         delete this->to;
     }
-    folly::AtomicHashMap<char, fst::Edge *> *Edge::getEdgeMap() {
+    folly::F14FastMap<char, fst::Edge *> *Edge::getEdgeMap() {
         return this->to->edgeMap;
     }
 };

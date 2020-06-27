@@ -4,7 +4,9 @@
 #include <queue>
 #include <vector>
 #include <list>
-#include <folly/AtomicHashmap.h>
+#include <tuple>
+
+#include <folly/container/F14Map.h>
 
 #include "fst/edge.hpp"
 #include "fst/node.hpp"
@@ -14,12 +16,12 @@
 namespace fst {
     class FST {
         private:
-            folly::AtomicHashMap<char, fst::Edge *> *edgeMap;
+            folly::F14FastMap<char, fst::Edge *> *edgeMap;
         public:
             FST();
             ~FST();
             bool addWord(std::string id, double score, std::string word);
-            std::set<NodeValue, std::greater<NodeValue>>::iterator getIterator(std::string word);
+            scoreIteratorPair getIterator(std::string word);
     };
 };
 

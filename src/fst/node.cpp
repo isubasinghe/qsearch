@@ -12,15 +12,15 @@ namespace fst {
     Node::Node(bool finalNode, char value) {
         this->finalNode = finalNode;
         this->value = value;
-        this->edgeMap = new folly::AtomicHashMap<char, fst::Edge *>(36);
+        this->edgeMap = new folly::F14FastMap<char, fst::Edge *>(36);
         this->nodeContainer = new NodeContainer();
     }
     bool Node::insert(std::string id, double score) {
         return this->nodeContainer->insert(id, score);
     }
 
-    std::set<fst::NodeValue, std::greater<fst::NodeValue>>::iterator Node::getIterator() {
-        return this->nodeContainer->docs.begin();
+    scoreIteratorPair Node::getIterator() {
+        return std::make_tuple(this->nodeContainer->docs.begin(), this->nodeContainer->docs.end());
     }
 
     Node::~Node() {

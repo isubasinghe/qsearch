@@ -1,6 +1,6 @@
 #ifndef EDGE_HPP
 #define EDGE_HPP
-#include <folly/AtomicHashmap.h>
+#include <folly/container/F14Map.h>
 #include "fst/node.hpp"
 
 
@@ -10,7 +10,7 @@ namespace fst {
             Edge(fst::Node *to);
             ~Edge();
             fst::Node *to;
-            folly::AtomicHashMap<char, fst::Edge *> *getEdgeMap();
+            folly::F14FastMap<char, fst::Edge *> *getEdgeMap();
     };
 };
 
