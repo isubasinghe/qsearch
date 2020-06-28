@@ -7,9 +7,6 @@
 
 int main(int argc, char *argv[]) {
     docman::BatchInserter *batchInserter = new docman::BatchInserter();
-    batchInserter->addDocument("1", "how are you today");
-    batchInserter->addDocument("2", "hey");
-    batchInserter->addDocument("3", "hello world");
 
 
     docman::Manager manager(batchInserter);

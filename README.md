@@ -25,4 +25,4 @@ Please make sure to update tests as appropriate.
 - [ ] Implement Raft over TCP or RSocket
 - [ ] Implement ringpop in order to distribute documents over cluster
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+GPL
