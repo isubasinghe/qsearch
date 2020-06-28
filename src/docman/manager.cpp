@@ -6,14 +6,10 @@ namespace docman {
         this->scorer = new scorer::TFIDFScorer(&(this->documents), this->wordMap);
         // Guess about the number of words
         this->wordMap = new folly::F14FastMap<std::string, unsigned long long>(20000);
-        // May return 0 if it fails to detect, so add 1
-        this->threadPoolExec = new folly::CPUThreadPoolExecutor(std::thread::hardware_concurrency() + 1);
     }
     Manager::Manager(BatchInserter *bi) {
         this->wordMap = bi->wordMap;
         this->scorer = new scorer::TFIDFScorer(&(this->documents), this->wordMap);
-         // May return 0 if it fails to detect, so add 1
-        this->threadPoolExec = new folly::CPUThreadPoolExecutor(std::thread::hardware_concurrency() + 1);
         
         unsigned long long size = (bi->documents).size();
         for(auto docEntry: (bi->documents)) {

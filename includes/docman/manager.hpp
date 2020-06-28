@@ -51,11 +51,9 @@ namespace docman {
             folly::F14FastMap<std::string, std::string> documents;
             folly::F14FastMap<std::string, unsigned long long> *wordMap;
             scorer::Scorer *scorer;
-            folly::CPUThreadPoolExecutor * threadPoolExec;
             bool insertToFST(std::string &id, double score, const std::string &word);
             bool insertToDocuments(std::string id, std::string document);
             void rebuildIndicies(std::string &word);
-            folly::Future<fst::scoreIteratorPair> getDocumentListing(std::string word);
         public:
             Manager(BatchInserter *batchInsertJob);
             Manager();
