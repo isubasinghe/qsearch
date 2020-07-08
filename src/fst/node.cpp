@@ -12,7 +12,7 @@ namespace fst {
     Node::Node(bool finalNode, char value) {
         this->finalNode = finalNode;
         this->value = value;
-        this->edgeMap = new folly::F14FastMap<char, fst::Edge *>(36);
+        this->edgeMap = new folly::F14FastMap<char, fst::Edge *>(ALPHABET_SIZE);
         this->nodeContainer = new NodeContainer();
     }
     bool Node::insert(std::string id, double score) {
