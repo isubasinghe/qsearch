@@ -96,7 +96,7 @@ namespace docman {
 
         unsigned long long documents = 0;
 
-        while(documents < k) {
+        while(documents < (k+PADDING_SIZE)) {
             if(extractHeap.size() < 1) {
                 break;
             }
@@ -115,7 +115,7 @@ namespace docman {
                 SearchResult searchResult;
                 searchResult.id = id;
                 searchResult.score = score;
-                if((topK.size() < k)) {
+                if((topK.size() < (k+PADDING_SIZE))) {
                     auto handle = topK.push(searchResult);
                     handleMap[id] = handle;
                     documents++;
@@ -135,8 +135,14 @@ namespace docman {
             }
         }
 
+        unsigned long long i = 0;
         for(auto& result: topK) {
+            ids.push_back(result.id);
             std::cout << result.id << "\t" << result.score << std::endl;
+            i++;
+            if(i >=k ) {
+                break;
+            }
         }
         
         return ids;

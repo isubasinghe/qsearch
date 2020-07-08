@@ -1,6 +1,8 @@
 #ifndef MANAGER_HPP
 #define MANAGER_HPP
 
+#define PADDING_SIZE 128 
+
 #include <iostream>
 #include <vector>
 #include <set>
