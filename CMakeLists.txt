@@ -19,6 +19,7 @@ find_package(Threads REQUIRED)
 find_package(gflags REQUIRED)
 find_package(Rocksdb REQUIRED)
 find_package(GooglePerftools)
+find_package(oatpp 1.1.0 REQUIRED)
 
 
 # <FOLLY>
@@ -59,6 +60,7 @@ add_executable(qsearch main.cpp
   ./src/scorer/tfidf.cpp
   ./src/docman/manager.cpp
   ./src/docman/batchinsert.cpp
+  ./src/server/server.cpp
   ./src/raft/raft.cpp
 )
 
@@ -66,9 +68,8 @@ list(APPEND LINK_LIBS ${Boost_LIBRARIES}
 ${FOLLY_LIBRARIES}
 ${Boost_FILESYSTEM_LIBRARY}
 ${Boost_SYSTEM_LIBRARY}
-${ROCKSDB_LIBRARIES})
-
-MESSAGE(STATUS "Variable is" ${LINK_LIBS})
+oatpp::oatpp
+)
 
 target_link_libraries(
   qsearch

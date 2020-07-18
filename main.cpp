@@ -2,19 +2,13 @@
 
 #include <iostream>
 #include <folly/container/F14Map.h>
-#include "docman/manager.hpp"
-#include "fst/fst.hpp"
+#include "server/server.hpp"
 
 int main(int argc, char *argv[]) {
-    docman::BatchInserter *batchInserter = new docman::BatchInserter();
+    oatpp::base::Environment::init();
 
+    server::Server server;
 
-    docman::Manager manager(batchInserter);
-    std::string query = "hello are you";
-
-    manager.search(query, 1);
-
-    delete batchInserter;
-
+    oatpp::base::Environment::destroy();
     return 0;
 }
