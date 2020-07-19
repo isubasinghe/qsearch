@@ -12,7 +12,7 @@ fst::FST::~FST() {
     // Breadth first search to delete all edges;
 
 
-    // Kepp track of all edges to delete
+    // Keep track of all edges to delete
     std::vector<fst::Edge *> toDelete;
 
     // queue for breadth first search
