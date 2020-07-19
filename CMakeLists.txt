@@ -17,7 +17,6 @@ find_package(Boost REQUIRED)
 find_package(folly REQUIRED)
 find_package(Threads REQUIRED)
 find_package(gflags REQUIRED)
-find_package(Rocksdb REQUIRED)
 find_package(GooglePerftools)
 find_package(oatpp 1.1.0 REQUIRED)
 
@@ -37,10 +36,6 @@ if (NOT folly_FIND_QUIETLY)
 endif()
 # </FOLLY>
 
-
-# <ROCKSDB>
-include_directories(${ROCKSDB_INCLUDE_DIR})
-# </ROCKSDB>
 
 # <GPERFTOOLS>
 if (GOOGLE_PERFTOOLS_FOUND)
