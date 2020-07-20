@@ -63,7 +63,6 @@ list(APPEND LINK_LIBS ${Boost_LIBRARIES}
 ${FOLLY_LIBRARIES}
 ${Boost_FILESYSTEM_LIBRARY}
 ${Boost_SYSTEM_LIBRARY}
-oatpp::oatpp
 )
 
 target_link_libraries(
