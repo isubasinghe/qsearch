@@ -21,8 +21,15 @@ namespace server {
 
     }
     void Server::handlePost(web::http::http_request message) {
-        std::cout << message.to_string() << std::endl;
-        message.reply(web::http::status_codes::OK,message.to_string());
+        message.extract_json().then([&message](pplx::task<web::json::value> jsonTask){
+            try {
+                web::json::value data = jsonTask.get();
+                std::string query = data["query"].as_string();
+                unsigned long long k = data["number"].as_integer();
+            } catch (...) {
+                // 
+            }
+        });
         return;
     }
     void Server::handlePut(web::http::http_request message) {
