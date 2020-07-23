@@ -18,7 +18,8 @@ find_package(folly REQUIRED)
 find_package(Threads REQUIRED)
 find_package(gflags REQUIRED)
 find_package(GooglePerftools)
-find_package(oatpp 1.1.0 REQUIRED)
+find_package(OpenSSL REQUIRED)
+find_package(cpprestsdk REQUIRED)
 
 
 # <FOLLY>
@@ -63,6 +64,7 @@ list(APPEND LINK_LIBS ${Boost_LIBRARIES}
 ${FOLLY_LIBRARIES}
 ${Boost_FILESYSTEM_LIBRARY}
 ${Boost_SYSTEM_LIBRARY}
+cpprestsdk::cpprest
 )
 
 target_link_libraries(
