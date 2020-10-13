@@ -81,11 +81,11 @@ namespace docman {
             results.push_back(iterPair);
         }
 
-        boost::heap::fibonacci_heap<SearchResult, boost::heap::compare<SearchResultCompare>> topK;
+        boost::heap::pairing_heap<SearchResult, boost::heap::compare<SearchResultCompare>> topK;
 
-        boost::heap::fibonacci_heap<fst::scoreIteratorPair, boost::heap::compare<KWayMergeCompare>> extractHeap;
+        boost::heap::pairing_heap<fst::scoreIteratorPair, boost::heap::compare<KWayMergeCompare>> extractHeap;
 
-        folly::F14FastMap<std::string, boost::heap::fibonacci_heap<SearchResult, 
+        folly::F14FastMap<std::string, boost::heap::pairing_heap<SearchResult, 
             boost::heap::compare<SearchResultCompare>>::handle_type> handleMap(k);
 
         for(fst::scoreIteratorPair& result: results) {
