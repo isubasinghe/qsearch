@@ -20,6 +20,7 @@ find_package(gflags REQUIRED)
 find_package(GooglePerftools)
 find_package(OpenSSL REQUIRED)
 find_package(cpprestsdk REQUIRED)
+find_package(Rocksdb REQUIRED)
 
 
 # <FOLLY>
@@ -46,6 +47,11 @@ if (GOOGLE_PERFTOOLS_FOUND)
 endif()
 # </GPERFTOOLS>
 
+# <ROCKSDB>
+include_directories(${ROCKSDB_INCLUDE_DIR})
+list(APPEND LINK_LIBS ${ROCKSDB_LIBRARIES})
+# </ROCKSDB>
+
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/includes")
 
 add_executable(qsearch main.cpp
@@ -56,6 +62,7 @@ add_executable(qsearch main.cpp
   ./src/scorer/tfidf.cpp
   ./src/docman/manager.cpp
   ./src/docman/batchinsert.cpp
+  ./src/docman/persistedengine.cpp
   ./src/server/server.cpp
   ./src/raft/raft.cpp
 )
