@@ -1,8 +1,10 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/isubasinghe/qsearch/badge)](https://www.codefactor.io/repository/github/isubasinghe/qsearch) 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/2d2258adaac04c4b8408590d23e965bc)](https://www.codacy.com/manual/isubasinghe/qsearch?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=isubasinghe/qsearch&amp;utm_campaign=Badge_Grade)
 ![GitHub issues](https://img.shields.io/github/issues/isubasinghe/qsearch)
-# QSearch
 
+## Project is being rewritten in Rust with more advanced features. Will be open sourced soonish 
+
+# QSearch
 QSearch (quicksearch) is a search engine for read only data. This means it has the potential to be far more performant than other search engines. 
 
 
